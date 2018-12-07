@@ -8,10 +8,15 @@ public class Main {
         Statistics stats = new Statistics(new PlayerReaderImpl("http://nhlstats-2013-14.herokuapp.com/players.txt"));
 
         QueryBuilder query = new QueryBuilder();
-        Matcher m = query.playsIn("NYR")
+
+        Matcher m1 = query.playsIn("PHI")
                 .hasAtLeast(10, "goals")
-                .hasFewerThan(25, "goals")
-                .build();
+                .hasFewerThan(20, "assists").build();
+
+        Matcher m2 = query.playsIn("EDM")
+                .hasAtLeast(60, "points").build();
+
+        Matcher m = query.oneOf(m1, m2).build();
 
         stats.matches(m).forEach(System.out::println);
         System.out.println("---");
